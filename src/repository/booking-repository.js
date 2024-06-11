@@ -19,7 +19,7 @@ class BookingRepository {
                 StatusCodes.INTERNAL_SERVER_ERROR);
         }
     }
-
+    // To set status as Booked
     async update(bookingId, data) {
         try {
             const booking = await Booking.findByPk(bookingId);
@@ -33,6 +33,62 @@ class BookingRepository {
                 'RepositoryError', 
                 'Cannot update Booking', 
                 'There was some issue updating the booking, please try again later',
+                StatusCodes.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    //To delete a Booking
+    async deleteBooking(bookingId, data) {
+        try {
+            // Fetch the booking first
+            const booking = await Booking.findOne({
+                where: {
+                    id: bookingId,
+                }
+            });
+
+            if (!booking) {
+                throw new AppError(
+                    'NotFoundError',
+                    'Booking Not Found',
+                    'The booking you are trying to delete does not exist',
+                    StatusCodes.NOT_FOUND);
+            }
+
+            // Update the status if provided
+            if (data.status) {
+                booking.status = data.status;
+                await booking.save();
+            }
+
+            // Can be implemented for Other Applications Where Prev Bookings Data is not necessary
+            // // Delete the booking
+            // await Booking.destroy({
+            //     where: {
+            //         id: bookingId,
+            //     }
+            // });
+
+            return booking; // Return the booking details that were deleted
+        } catch (error) {
+            throw new AppError(
+                'RepositoryError',
+                'Cannot Delete Booking',
+                'There was some issue Deleting the booking, please try again later',
+                StatusCodes.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    
+    async getBooking(bookingId) {
+        try {
+            const booking = await Booking.findByPk(bookingId);
+            return booking;
+        } catch (error) {
+            throw new AppError(
+                'RepositoryError', 
+                'Cannot Fetch Booking', 
+                'There was some issue Fetch the booking, please try again later',
                 StatusCodes.INTERNAL_SERVER_ERROR);
         }
     }

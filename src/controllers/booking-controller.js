@@ -40,6 +40,26 @@ class BookingController {
             });
         }
     }
+
+    async destroy (req, res) {
+        try {
+            const response = await bookingService.deleteBooking(req.body);
+            // console.log("FROM BOOKING CONTROLLER", response);
+            return res.status(StatusCodes.OK).json({
+                message: 'Successfully Deleted booking',
+                success: true,
+                err: {},
+                data: response
+            })
+        } catch (error) {
+            return res.status(error.statusCode).json({
+                message: error.message,
+                success: false,
+                err: error.explanation,
+                data: {}
+            });
+        }
+    }
 }
 
 module.exports = BookingController
