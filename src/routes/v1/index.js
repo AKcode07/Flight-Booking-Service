@@ -6,5 +6,6 @@ const router = express.Router();
 
 router.post('/bookings', bookingController.create);
 router.delete('/bookings', bookingController.destroy);
+router.post('/publish', bookingController.sendMessageToQueue);
 
 module.exports = router;
