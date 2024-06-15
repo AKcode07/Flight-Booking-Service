@@ -20,7 +20,6 @@ class BookingController {
                 content: 'This is some content sent in an email',
                 recepientEmail: 'notificationservice12345@gmail.com',
                 notificationTime: '2024-06-15T11:40:00.000'
-        
             },
             service: 'CREATE_TICKET'
         };
